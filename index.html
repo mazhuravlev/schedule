@@ -1,0 +1,18 @@
+<script src="underscore-min.js"></script>
+<script src="time.js"></script>
+<script>
+    var Interval = Schedule.Interval;
+    var makeDate = Schedule.makeDate;
+    var schedule = [
+        new Interval(makeDate(9, 45), makeDate(9, 50)),
+        new Interval(makeDate(10, 30), makeDate(11, 30)),
+        new Interval(makeDate(13, 0), makeDate(14, 50)),
+        new Interval(makeDate(16, 10), makeDate(16, 20)),
+    ];
+
+    Schedule.getBusyMinutes(schedule, 9, 18).forEach(
+            interval => {
+                document.write('' + interval.start.getHours() + ': ' + interval.busyMinutes + ' minutes<br>');
+            }
+    );
+</script>
