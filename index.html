@@ -10,7 +10,7 @@
         new Interval(makeDate(16, 10), makeDate(16, 20)),
     ];
 
-    Schedule.getBusyMinutes(schedule, 9, 18).forEach(
+    Schedule.getBusyMinutes(schedule, makeDate(8, 40), makeDate(18, 45)).forEach(
             interval => {
                 document.write('' + interval.start.getHours() + ': ' + interval.busyMinutes + ' minutes<br>');
             }

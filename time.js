@@ -19,13 +19,24 @@
         return date;
     }
 
-    function generateHoursIntervals(startHour, endHour) {
-        if (endHour < startHour) {
+    function generateHoursIntervals(startDate, endDate) {
+        if (endDate.getTime() <= startDate.getTime()) {
             throw new Error;
         }
-        return _.range(startHour, endHour).map(
+        var hours = _.range(startDate.getHours(), endDate.getHours() - 1).map(
             hour => new Interval(makeDate(hour), makeDate(hour + 1))
         );
+        hours[0].start.setMinutes(startDate.getMinutes());
+        hours.push(
+            new Interval(
+                makeDate(endDate.getHours(), 0),
+                makeDate(
+                    endDate.getMinutes() > 0 ? endDate.getHours() : endDate.getHours() + 1,
+                    endDate.getMinutes()
+                )
+            )
+        );
+        return hours;
     }
 
     function calculateIntersection(ia, ib) {
@@ -43,8 +54,8 @@
         }
     }
 
-    function getBusyMinutes(schedule, startHour, endHour) {
-        var hours = generateHoursIntervals(startHour, endHour);
+    function getBusyMinutes(schedule, startDate, endDate) {
+        var hours = generateHoursIntervals(startDate, endDate);
         return hours.map(
             hourInterval => {
                 var busyMilliseconds = 0;
